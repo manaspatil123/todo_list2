@@ -73,7 +73,7 @@
                                             @method('DELETE')
                                             <input type="hidden" name="todo_id" value="{{ $todo->id}}">
                                             <input type="submit" class="btn btn-sm btn-danger" value="Delete">
-                                </tr>           
+                                 </tr>           
                                 @endforeach       
                         </tbody>
                         </table>

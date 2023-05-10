@@ -74,7 +74,7 @@ class TodoController extends Controller
         }
         return view('todos.edit',['todo'=>$todo]);
     }
-    public function update(Request $request, $id)
+    public function update(TodoRequest $request)
     {
         $this->validate($request, [
             'title' => 'required|string|max:255',
@@ -82,17 +82,27 @@ class TodoController extends Controller
             'completed' => 'nullable',
         ]);
 
-        $todo = Todo::where('id', $id)->where('user_id', Auth::user()->id)->firstOrFail();
-        $todo->title = $request->input('title');
-        $todo->description = $request->input('description');
+        // $todo = Todo::where('id', $id)->where('user_id', Auth::user()->id)->firstOrFail();
+       $todo=Todo::find($request->todo_id);
+       if(!$todo){
 
-        if($request->has('completed')){
-            $todo->completed = true;
-        }else{
-            $todo->completed = false;
-        }
+        request()->session()->flash('error','Unable to locate Todo');
+        return to_route('todos.index')->withErrors([
+            'error'=> 'Unable to locate the Todo'
+        ]);
+    }
+        $todo->update([
+            'title'=>$request->title,
+            'description'=> $request->description,
+            'is_completed'=>$request->is_completed
+        ]);
+        // if($request->has('completed')){
+        //     $todo->completed = true;
+        // }else{
+        //     $todo->completed = false;
+        // }
 
-        $todo->save();
+        // $todo->save();
 
      
         $request->session()->flash('alert-info','Todo Updated Successfully');
@@ -100,9 +110,9 @@ class TodoController extends Controller
         return to_route('todos.index');
 
     }
-    public function destroy($id){
+    public function destroy(Request $request){
 
-        $todo = Todo::where('id', $id)->where('user_id', Auth::user()->id)->firstOrFail();
+        $todo = Todo::find($request->todo_id);
         if(!$todo){
  
          request()->session()->flash('error','Unable to locate Todo');
