@@ -22,19 +22,19 @@
               </div>
               <div class="mb-3">
             <label class="form-label">Description</label>
-            <textarea name="description" class="form-control" cols="5" rows="5">
-                {{ $todo->description }}
-            </textarea>
+            <textarea name="description" class="form-control" cols="5" rows="5">{{ trim($todo->description) }}</textarea>
           </div>
              <div class="mb-3">
                 <label for="">Status</label>
                 <select name="is_completed" class="form-control">
-                    <option disabled selected>Select Option</option>
-                    <option value="1">Completed</option>
-                    <option value="0">Incompleted</option>
+                    <option value="0" selected disabled hidden>Not Started</option>
+                    <option value="1">In progress</option>
+                    <option value="2">Completed</option>
                 </select>
             </div>
          <button type="submit" class="btn btn-primary">Update</button>
+         <a href="{{ url()->previous() }}" class="btn btn-danger">Cancel</a>
+
         </form>   
 <!-- till here -->
                 </div>

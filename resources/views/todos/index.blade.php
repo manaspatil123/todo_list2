@@ -58,9 +58,11 @@
                                     <td>{{ $todo->description}}</td>
                                     <td>
                                         @if($todo->is_completed==1)
-                                            <a class="btn btn-sm btn-success" href="">completed</a>
+                                            <a class="btn btn-sm btn-info" href="">In Progress</a>
+                                        @elseif($todo->is_completed==2)
+                                            <a class="btn btn-sm btn-success" href="">Completed</a>
                                         @else
-                                          <a class="btn btn-sm btn-danger" href="">incomplete</a>
+                                          <a class="btn btn-sm btn-danger" href="">Not Started</a>
                                         @endif
 
                                     </td>
